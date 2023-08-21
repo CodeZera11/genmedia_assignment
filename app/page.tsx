@@ -1,10 +1,17 @@
 "use client"
 
+import ProductCard from '@/components/ProductCard';
 import axios from 'axios';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { Roboto, Montserrat } from 'next/font/google'
 
-interface Product {
+const roboto = Roboto({
+  weight: "400",
+  subsets: ['latin']
+})
+
+
+export interface Product {
   id: number;
   title: string;
   description: string;
@@ -77,8 +84,8 @@ export default function Home() {
   return (
     <div className='flex flex-col gap-20 py-10 bg-black w-full h-[100vh] text-white overflow-y-scroll'>
       <div className='flex flex-col gap-10 items-center justify-center'>
-        <h1 className='text-4xl font-bold'>Products List</h1>
-        <div className='flex gap-10'>
+        <h1 className={`${roboto.className} text-2xl md:text-3xl lg:text-4xl font-bold`}>Products List</h1>
+        <div className='flex flex-col md:flex-row gap-10'>
           <div >
             <label htmlFor="category">Filter by Category: </label>
             <select className='rounded-full text-black p-2 bg-gray-400 ml-2'
@@ -120,24 +127,13 @@ export default function Home() {
               <option className='text-center' value="price">Price</option>
             </select>
           </div>
+
         </div>
       </div>
 
-      <div className='grid grid-cols-4 gap-5'>
+      <div className='p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {(filteredProducts.map((product, index) => (
-          <div key={index} className='flex flex-col border border-gray-500'>
-            <Image
-              src={product.images[0]}
-              alt={product.title}
-              width={1000}
-              height={1000}
-              className='w-full object-fill h-[300px] inset-0'
-            />
-            <div className='flex flex-col gap-1 px-4 py-2'>
-              <h1 className='font-mono text-lg '>{product.title}</h1>
-              <p className='text-gray-400'>₹{product.price}/-</p>
-            </div>
-          </div>
+          <ProductCard product={product} key={index} />
         )))}
       </div>
     </div>
